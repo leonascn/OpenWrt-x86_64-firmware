@@ -57,6 +57,16 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    - name: Install Clash Binaries
+      run: |
+        [ -f master.zip ] && rm -f master.zip
+        [ -d OpenClash-master ] && rm -rf OpenClash-master
+        wget https://github.com/vernesong/OpenClash/archive/master.zip
+        unzip master.zip
+        cp -r OpenClash-master/luci-app-openclash openwrt/package
+        rm -f master.zip
+        rm -rf OpenClash-master
+
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
